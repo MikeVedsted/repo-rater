@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.primary,
     paddingVertical: 5,
     paddingHorizontal: 10,
-    borderRadius: 5,
+    borderRadius: theme.corners,
     alignSelf: "flex-start",
   },
   text: {

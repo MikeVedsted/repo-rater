@@ -22,7 +22,7 @@ const RepositoryItem = ({ item }) => {
     avatar: {
       width: 50,
       height: 50,
-      borderRadius: 5
+      borderRadius: theme.corners
     },
   });
 

@@ -1,13 +1,27 @@
 import React from 'react';
-import { TouchableWithoutFeedback } from 'react-native';
+import { TouchableWithoutFeedback, View, StyleSheet } from 'react-native';
 
 import Text from './Text';
 
-const AppBarTab = ({ text }) => {
+const styles = StyleSheet.create({
+  tabContainer: {
+    padding: 10,
+    paddingTop: 15,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
+
+const AppBarTab = ({ children, ...props }) => {
   return (
-    // <TouchableWithoutFeedback>
-    <Text color='white' fontSize='subheading' fontWeight='bold' style={{ marginBottom: 10 }}>{text}</Text>
-    // </TouchableWithoutFeedback>
+    <TouchableWithoutFeedback {...props}>
+      <View style={styles.tabContainer}>
+        <Text color='white' fontSize='subheading' fontWeight='bold'>
+          {children}
+        </Text>
+      </View>
+    </TouchableWithoutFeedback>
   );
 };
 
