@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, Image, StyleSheet } from 'react-native';
 
-import ItemDataCount from './ItemDataCount';
 import ItemOverView from './ItemOverView';
+import ItemDataCount from './ItemDataCount';
 import theme from '../theme';
 
 const RepositoryItem = ({ item }) => {
