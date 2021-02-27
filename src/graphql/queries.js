@@ -23,3 +23,23 @@ export const CHECK_AUTH = gql`
     }
   }
 `;
+
+export const GET_REPOSITORY = gql`
+query Repository($id: ID!) {
+  repository(id: $id) {
+    ...RepositoryDetails
+    url
+  }
+}
+${REPOSITORY_DETAILS}
+`;
+// export const GET_REPOSITORY = gql`
+//   query getRepository($id: String!) {
+//       repository(id: $id) {
+//         ...RepositoryDetails
+//         url
+//       }
+//   }
+//   ${REPOSITORY_DETAILS}
+// `;
+
