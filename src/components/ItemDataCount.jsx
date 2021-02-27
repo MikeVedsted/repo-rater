@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
 const ItemDataCount = ({ count, unit }) => {
   return (
     <View style={styles.container}>
-      <Text fontWeight="bold" fontSize="subheading" >{count > 1000 ? `${((count / 1000).toFixed(1))}k` : count}</Text>
+      <Text testID='repositoryCount' fontWeight="bold" fontSize="subheading" >{count > 1000 ? `${((count / 1000).toFixed(1))}k` : count}</Text>
       <Text fontSize="subheading" color='textSecondary'>{unit}</Text>
     </View>
   );

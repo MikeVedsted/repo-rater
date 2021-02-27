@@ -14,8 +14,8 @@ const styles = StyleSheet.create({
 const ItemOverView = ({ name, description, language }) => {
   return (
     <View style={styles.container}>
-      <Text fontWeight="bold" fontSize="subheading">{name}</Text>
-      <Text color="textSecondary" style={{ marginVertical: 10, flexWrap: "wrap" }}>{description}</Text>
+      <Text testID='repositoryName' fontWeight="bold" fontSize="subheading">{name}</Text>
+      <Text testID='repositoryDescription' color="textSecondary" style={{ marginVertical: 10, flexWrap: "wrap" }}>{description}</Text>
       <Pill text={language} />
     </View>
 

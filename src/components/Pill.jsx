@@ -20,7 +20,7 @@ const Pill = ({ text }) => {
 
   return (
     <View style={styles.pill} >
-      <Text style={styles.text} >{text}</Text>
+      <Text testID='repositoryLanguage' style={styles.text} >{text}</Text>
     </View>
   );
 };
