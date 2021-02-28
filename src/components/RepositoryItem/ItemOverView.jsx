@@ -1,7 +1,7 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 
-import Text from './Text';
+import Text from '../Text';
 import Pill from './Pill';
 
 const styles = StyleSheet.create({

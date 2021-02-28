@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-native';
 import { View, Image, StyleSheet } from 'react-native';
 import { useLazyQuery } from '@apollo/react-hooks';
-import * as Linking from 'expo-linking';
+import * as WebBrowser from 'expo-web-browser';
 
-
+import Loading from '../Loading';
 import ItemOverView from './ItemOverView';
 import ItemDataCount from './ItemDataCount';
 import Button from './Button';
@@ -42,7 +42,7 @@ const RepositoryItem = ({ item }) => {
   }, [data]);
 
   if (loading) {
-    return <p>Loading</p>;
+    return <Loading />;
   }
 
   if (!item) {
@@ -50,11 +50,6 @@ const RepositoryItem = ({ item }) => {
       getRepository({ variables: { id } });
     }
   }
-
-  const handlePress = () => {
-    // console.log('clicked')
-    Linking.openURL('https://expo.io');
-  };
 
   return (
     <View style={styles.container} >
@@ -70,7 +65,7 @@ const RepositoryItem = ({ item }) => {
           <ItemDataCount count={repository.ratingAverage} unit='Rating' />
         </View>
       </>}
-      { id && <Button onPress={handlePress}></Button>}
+      { id && <Button onPress={() => WebBrowser.openBrowserAsync(repository.url)}>Open in Github</Button>}
     </View>
   );
 };
