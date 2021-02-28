@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-native';
-import { View, Image, StyleSheet } from 'react-native';
+import { View, Image, FlatList, StyleSheet } from 'react-native';
 import { useLazyQuery } from '@apollo/react-hooks';
 import * as WebBrowser from 'expo-web-browser';
 
 import Loading from '../Loading';
 import ItemOverView from './ItemOverView';
 import ItemDataCount from './ItemDataCount';
-import Button from './Button';
-import theme from '../theme';
-import { GET_REPOSITORY } from '../graphql/queries';
+import ReviewItem from './ReviewItem';
+import Button from '../Button';
+import theme from '../../theme';
+import { GET_REPOSITORY } from '../../graphql/queries';
 
 const styles = StyleSheet.create({
   container: {
@@ -29,6 +30,7 @@ const styles = StyleSheet.create({
     borderRadius: theme.corners
   },
 });
+
 
 const RepositoryItem = ({ item }) => {
   const { id } = useParams();
@@ -51,8 +53,9 @@ const RepositoryItem = ({ item }) => {
     }
   }
 
-  return (
-    <View style={styles.container} >
+  const RepositoryInfo = () => {
+    return (
+      <View style={styles.container} >
       {repository && <>
         <View style={styles.row}>
           <Image style={styles.avatar} source={{ uri: repository.ownerAvatarUrl }} />
@@ -67,14 +70,21 @@ const RepositoryItem = ({ item }) => {
       </>}
       { id && <Button onPress={() => WebBrowser.openBrowserAsync(repository.url)}>Open in Github</Button>}
     </View>
+    );
+  };
+
+  return (
+    <View>
+      {!id && <RepositoryInfo />}
+      {id && repository && repository.reviews && <FlatList
+        data={repository.reviews.edges}
+        renderItem={({ item }) => <ReviewItem review={item} />}
+        ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
+        keyExtractor={({ node }) => node.id}
+        ListHeaderComponent={() => <RepositoryInfo repository={repository} />}
+      />}
+    </View>
   );
 };
 
 export default RepositoryItem;
-
-
-
-
-
-
-
