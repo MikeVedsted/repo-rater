@@ -1,10 +1,13 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-native';
-import { View, Image, StyleSheet, Text } from 'react-native';
-import { useQuery } from '@apollo/react-hooks';
+import { View, Image, StyleSheet } from 'react-native';
+import { useLazyQuery } from '@apollo/react-hooks';
+import * as Linking from 'expo-linking';
+
 
 import ItemOverView from './ItemOverView';
 import ItemDataCount from './ItemDataCount';
+import Button from './Button';
 import theme from '../theme';
 import { GET_REPOSITORY } from '../graphql/queries';
 
@@ -28,35 +31,46 @@ const styles = StyleSheet.create({
 });
 
 const RepositoryItem = ({ item }) => {
-  const params = useParams();
-  console.log(params);
-  const { data, error, loading } = useQuery(GET_REPOSITORY, {
-    variables: { id: params.id }
-  });
-
-
-  if (!item) {
-    if (loading) return 'loading';
-    item = data.repository;
-  }
+  const { id } = useParams();
+  const [getRepository, { data, loading, called }] = useLazyQuery(GET_REPOSITORY, { fetchPolicy: 'no-cache' });
+  const [repository, setRepository] = useState(item);
 
   useEffect(() => {
-    console.log('DATA ----------------', data);
+    if (called && !loading) {
+      setRepository(data.repository);
+    }
   }, [data]);
-  // const { fullName, description, language, forksCount, stargazersCount, ratingAverage, reviewCount, ownerAvatarUrl, id } = item;
+
+  if (loading) {
+    return <p>Loading</p>;
+  }
+
+  if (!item) {
+    if (!called) {
+      getRepository({ variables: { id } });
+    }
+  }
+
+  const handlePress = () => {
+    // console.log('clicked')
+    Linking.openURL('https://expo.io');
+  };
 
   return (
     <View style={styles.container} >
-      <View style={styles.row}>
-        <Image style={styles.avatar} source={{ uri: item.ownerAvatarUrl }} />
-        <ItemOverView name={item.fullName} description={item.description} language={item.language} />
-      </View>
+      {repository && <>
+        <View style={styles.row}>
+          <Image style={styles.avatar} source={{ uri: repository.ownerAvatarUrl }} />
+          <ItemOverView name={repository.fullName} description={repository.description} language={repository.language} />
+        </View>
         <View style={styles.distributedRow}>
-        <ItemDataCount count={item.stargazersCount} unit='Stars' />
-        <ItemDataCount count={item.forksCount} unit='Forks' />
-        <ItemDataCount count={item.reviewCount} unit='Reviews' />
-        <ItemDataCount count={item.ratingAverage} unit='Rating' />
-        </View> 
+          <ItemDataCount count={repository.stargazersCount} unit='Stars' />
+          <ItemDataCount count={repository.forksCount} unit='Forks' />
+          <ItemDataCount count={repository.reviewCount} unit='Reviews' />
+          <ItemDataCount count={repository.ratingAverage} unit='Rating' />
+        </View>
+      </>}
+      { id && <Button onPress={handlePress}></Button>}
     </View>
   );
 };
