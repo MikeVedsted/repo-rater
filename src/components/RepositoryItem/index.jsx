@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
 
 const RepositoryItem = ({ item }) => {
   const { id } = useParams();
-  const [getRepository, { data, loading, called }] = useLazyQuery(GET_REPOSITORY, { fetchPolicy: 'no-cache' });
+  const [getRepository, { data, loading, called }] = useLazyQuery(GET_REPOSITORY, { fetchPolicy: 'cache-and-network' });
   const [repository, setRepository] = useState(item);
 
   useEffect(() => {
