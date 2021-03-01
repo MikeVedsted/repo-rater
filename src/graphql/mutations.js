@@ -34,29 +34,19 @@ mutation addReview ( $repositoryName: String!, $ownerName: String!, $rating: Int
   }
 }
 `;
-// export const CREATE_REVIEW = gql`
+
+export const SIGN_UP = gql`
+mutation signUp ( $username: String!, $password: String!) {
+  createUser( user: {
+    username: $username,
+    password: $password
+  }) {
+    id
+    username
+  }
+}
+`;
+
 // mutation {
-//   createReview( review: {
-//     repositoryName: "redux", 
-//     ownerName: "reduxjs", 
-//     rating: 100, 
-//     text: "this is absolutely awesome"
-//   }) {
-//     id
-//     user {
-//       id
-//       username
-//     }
-//     repository {
-//       id
-//       ownerName
-//       name
-//     }
-//     userId
-//     repositoryId
-//     rating
-//     createdAt
-//     text
-//   }
+//   createUser(user: {username: "mike", password: "password"}) {id, username, createdAt}
 // }
-// `;  
