@@ -33,7 +33,6 @@ const SignInForm = ({ onSubmit }) => {
 const validationSchema = yup.object().shape({
   username: yup.string().required('Password is required'),
   password: yup.string().required('Password is required')
-
 });
 
 const SignIn = () => {
