@@ -22,18 +22,10 @@ const Main = () => {
     <View style={styles.container}>
       <AppBar />
       <Switch>
-        <Route path="/sign-in" exact >
-          <SignIn />
-        </Route>
-        <Route path="/review" exact >
-          <Review />
-        </Route>
-        <Route path="/repository/:id" exact >
-          <RepositoryItem />
-        </Route>
-        <Route path="/" exact>
-          <RepositoryList />
-        </Route>
+        <Route path="/sign-in" exact component={SignIn} />
+        <Route path="/review" exact component={Review} />
+        <Route path="/repository/:id" exact component={RepositoryItem} />
+        <Route path="/" exact component={RepositoryList} />
         <Redirect to="/" />
       </Switch>
     </View>
