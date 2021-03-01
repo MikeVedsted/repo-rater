@@ -2,6 +2,8 @@ import React from 'react';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { useHistory } from 'react-router-native';
+
+import useSignIn from '../../hooks/useSignIn';
 import { useMutation, useApolloClient } from '@apollo/client';
 import { SIGN_UP } from '../../graphql/mutations';
 
@@ -26,6 +28,7 @@ const validationSchema = yup.object().shape({
 
 const SignUp = () => {
   const history = useHistory();
+  const [signIn] = useSignIn();
   const [mutate] = useMutation(SIGN_UP);
 
   const onSubmit = async (values) => {
@@ -35,6 +38,9 @@ const SignUp = () => {
     try {
       const { data } = await mutate({ variables: { username, password } });
       console.log(data);
+      const signinres = await signIn({ username, password });
+      console.log('sign in', signinres.data);
+      history.push('/');
 
     //   const { data } = await signIn({ username, password });
     //   console.log(data);

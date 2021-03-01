@@ -46,7 +46,3 @@ mutation signUp ( $username: String!, $password: String!) {
   }
 }
 `;
-
-// mutation {
-//   createUser(user: {username: "mike", password: "password"}) {id, username, createdAt}
-// }
