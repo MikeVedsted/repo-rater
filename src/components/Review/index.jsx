@@ -4,35 +4,45 @@ import { View } from 'react-native';
 import { Formik } from 'formik';
 import ReviewForm from './ReviewForm';
 import * as yup from 'yup';
+import { useHistory } from 'react-router-native';
+
+import { useMutation, useApolloClient } from '@apollo/client';
+import { CREATE_REVIEW } from '../../graphql/mutations';
 
 const initialValues = {
-  owner: "",
-  name: "",
+  repositoryName: "",
+  ownerName: "",
   rating: "",
-  review: ""
+  text: ""
 };
 
 const validationSchema = yup.object().shape({
-  owner: yup.string().required('Repository owner is required'),
-  name: yup.string().required('Repository name is required'),
+  repositoryName: yup.string().required('Repository name is required'),
+  ownerName: yup.string().required('Repository owner is required'),
   rating: yup.number().min(0, 'Review must be at least 0').max(100, 'Reviews higher than 100 not allowed').required('Rating is required'),
-  review: yup.string()
+  text: yup.string()
 });
 
 
 const Review = () => {
+  const history = useHistory();
+  const [mutate] = useMutation(CREATE_REVIEW);
 
   const onSubmit = async (values) => {
-    // const { username, password } = values;
+    const { repositoryName, ownerName, text } = values;
+    const rating = Number(values.rating);
 
-    // try {
+    try {
+      console.log('trigger');
+      const { data } = await mutate({ variables: { repositoryName, ownerName, rating, text } });
     //   const { data } = await signIn({ username, password });
     //   console.log(data);
-    //   history.push('/');
-    // } catch (e) {
-    //   console.log(e);
-    // }
-    console.log(values);
+      console.log("find it here", data);
+      history.push(`/repository/${data.createReview.repositoryId}`);
+    } catch (e) {
+      console.log(e);
+    }
+    console.log('values', values);
   };
 
   return (
