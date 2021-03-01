@@ -12,8 +12,7 @@
 // Review is a optional string
 
 
-// Use sensible error messages with the validators.
-// The validation message can be defined as the validator method's message argument. 
+
 // You can make the review field expand to multiple lines by using TextInput component's multiline prop.
 
 // You can create a review using the createReview mutation.
@@ -61,7 +60,8 @@ const ReviewForm = ({ onSubmit }) => {
       <FormikTextInput name="owner" placeholder="Repository owner name" />
       <FormikTextInput name="name" placeholder="Repository name" />
       <FormikTextInput name="rating" placeholder="Rating (0-100)" keyboardType='numeric' />
-      <FormikTextInput name="review" placeholder="Review" />
+      <FormikTextInput name="review" placeholder="Review (Optional)" multiline numberOfLines={8}
+      />
       <Button onPress={onSubmit}>Create a review</Button>
     </View>
   );
