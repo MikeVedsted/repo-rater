@@ -4,7 +4,7 @@ import { FlatList, View, TouchableWithoutFeedback } from 'react-native';
 
 import RepositoryItem from "../RepositoryItem";
 
-const RepositoryListContainer = ({ repositories }) => {
+const RepositoryListContainer = ({ repositories, header }) => {
   const history = useHistory();
   const repositoryNodes = repositories
     ? repositories.edges.map(edge => edge.node)
@@ -27,6 +27,7 @@ const RepositoryListContainer = ({ repositories }) => {
       renderItem={({ item }) => <RenderItem item={item} />}
       keyExtractor={item => item.id}
       testID='RepositoryListContainer'
+      ListHeaderComponent={header}
     />
 
   );
