@@ -50,6 +50,10 @@ export const CHECK_AUTH = gql`
         edges {
           node {
             ...ReviewDetails
+            repository {
+              fullName
+              url
+            }
             __typename
           }
           cursor
