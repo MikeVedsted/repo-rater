@@ -1,11 +1,11 @@
 import React from 'react';
 import { useParams } from 'react-router-native';
-import { View, Image, FlatList, StyleSheet } from 'react-native';
+import { View, Image, StyleSheet } from 'react-native';
 import * as WebBrowser from 'expo-web-browser';
 
 import ItemOverView from './ItemOverView';
 import ItemDataCount from './ItemDataCount';
-import ReviewItem from './ReviewItem';
+import ReviewItem from '../ReviewItem';
 import Button from '../Button';
 import theme from '../../theme';
 import useSingleRepository from '../../hooks/useSingleRepository';
