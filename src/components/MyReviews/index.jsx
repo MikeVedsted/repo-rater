@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { View, Text, FlatList } from 'react-native';
 
+import Button from '../Button';
 import ReviewItem from '../ReviewItem';
 import { CHECK_AUTH } from '../../graphql/queries';
 
@@ -25,7 +26,7 @@ const MyReviews = () => {
     <View style={{ flex: 1 }}>
       <FlatList
         data={reviews}
-        renderItem={({ item }) => <ReviewItem review={item} />}
+        renderItem={({ item }) => <ReviewItem review={item} owner />}
         ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
         keyExtractor={({ node }) => node.id}
       />

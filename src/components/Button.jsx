@@ -14,8 +14,8 @@ const styles = StyleSheet.create({
   },
 });
 
-const Button = ({ children, style, ...props }) => {
-  const buttonStyle = [styles.container, style];
+const Button = ({ children, color, style, ...props }) => {
+  const buttonStyle = [styles.container, style, color === 'warning' && { backgroundColor: theme.colors.error }];
 
   return (
     <TouchableWithoutFeedback {...props}>
