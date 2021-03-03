@@ -46,3 +46,10 @@ mutation signUp ( $username: String!, $password: String!) {
   }
 }
 `;
+
+
+export const DELETE_REVIEW = gql`
+mutation deleteReview ($id: ID!){
+  deleteReview(id: $id) 
+}
+`;

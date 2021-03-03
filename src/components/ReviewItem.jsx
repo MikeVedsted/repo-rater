@@ -1,10 +1,15 @@
 import React from 'react';
+import { useHistory } from 'react-router-native';
 import { Alert, View, StyleSheet } from 'react-native';
+import { useMutation, useApolloClient } from '@apollo/client';
+
 import * as WebBrowser from 'expo-web-browser';
 
 import Text from './Text';
 import Button from './Button';
 import theme from '../theme';
+import { CHECK_AUTH } from '../graphql/queries';
+import { DELETE_REVIEW } from '../graphql/mutations';
 
 const styles = StyleSheet.create({
   container: { backgroundColor: theme.colors.white, padding: 20 },
@@ -14,14 +19,20 @@ const styles = StyleSheet.create({
 });
 
 const ReviewItem = ({ review, owner }) => {
+  const history = useHistory();
   const { createdAt, rating, text, user } = review.node;
-  const { fullName = '', url = '' } = review.node.repository;
+  const { fullName = '', id = '' } = review.node.repository;
+  const reviewId = review.node.id;
   const date = new Date(createdAt);
   const dateString = `${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`;
-  
-  const handleDeleteRequer = () => {
-    console.log('should delete')
-  };
+  const [mutate] = useMutation(DELETE_REVIEW, {
+    variables: { id: reviewId },
+    refetchQueries: [
+      { query: CHECK_AUTH, variables: { includeReviews: true } }
+    ],
+    awaitRefetchQueries: true
+
+  });
 
   const createTwoButtonAlert = () =>
     Alert.alert(
@@ -32,12 +43,18 @@ const ReviewItem = ({ review, owner }) => {
           text: "Cancel",
         },
         {
-          text: "OK",
-          onPress: () => console.log("OK Pressed")
+          text: "DELETE",
+          onPress: () => handleDelete()
         }
       ],
       { cancelable: false }
     );
+
+  const handleDelete = async () => {
+    console.log('deleting');
+    await mutate();
+  };
+
 
   return (
     <View style={styles.container}>
@@ -54,11 +71,8 @@ const ReviewItem = ({ review, owner }) => {
       </View>
       {owner &&
         <View style={styles.row}>
-          <Button onPress={() => WebBrowser.openBrowserAsync(url)} style={{ flex: 1, margin: 10 }} >View repository</Button>
-          <Button
-            // onPress={() => Alert.alert('You pressed the text!')}
-            onPress={createTwoButtonAlert}
-            style={{ flex: 1, margin: 10 }} color='warning' >Delete review</Button>
+          <Button onPress={() => history.push(`/repository/${id}`)} style={{ flex: 1, margin: 10 }} >View repository</Button>
+        <Button onPress={createTwoButtonAlert} style={{ flex: 1, margin: 10 }} color='warning' >Delete review</Button>
         </View>
       }
     </View>

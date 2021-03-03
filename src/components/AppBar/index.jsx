@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import Constants from 'expo-constants';
-import { Link } from 'react-router-native';
+import { Link, useHistory } from 'react-router-native';
 import { useQuery } from '@apollo/react-hooks';
 import { useApolloClient } from '@apollo/client';
 import { View, StyleSheet, ScrollView } from 'react-native';
@@ -20,6 +20,7 @@ const styles = StyleSheet.create({
 });
 
 const AppBar = () => {
+  const history = useHistory();
   const authStorage = useContext(AuthStorageContext);
   const apolloClient = useApolloClient();
   const { data } = useQuery(CHECK_AUTH);
@@ -27,6 +28,7 @@ const AppBar = () => {
   const handleSignOut = async () => {
     await authStorage.removeAccessToken();
     apolloClient.resetStore();
+    history.push('/');
   };
 
   return (
