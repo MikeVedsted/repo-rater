@@ -51,8 +51,8 @@ export const CHECK_AUTH = gql`
           node {
             ...ReviewDetails
             repository {
+              id
               fullName
-              url
             }
             __typename
           }
