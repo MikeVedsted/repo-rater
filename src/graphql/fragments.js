@@ -11,6 +11,7 @@ export const REPOSITORY_DETAILS = gql`
     ratingAverage, 
     reviewCount, 
     ownerAvatarUrl
+    __typename
   }
 `;
 
@@ -20,9 +21,11 @@ export const REVIEW_DETAILS = gql`
     rating
     user {
       username
+      __typename
     }
     createdAt
     text
+    __typename
   }
 `;
 

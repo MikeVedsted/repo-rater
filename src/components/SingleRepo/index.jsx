@@ -30,31 +30,47 @@ const styles = StyleSheet.create({
 });
 
 
-const RepositoryItem = ({ item }) => {
+const RepositoryItem = () => {
+  const { id } = useParams();
+  const { repository, fetchMoreReviews } = useSingleRepository({ id, first: 2 });
 
 
   const RepositoryInfo = ({ data }) => {
     return (
       <View style={styles.container} >
         {data && <>
-        <View style={styles.row}>
+          <View style={styles.row}>
             <Image style={styles.avatar} source={{ uri: data.ownerAvatarUrl }} />
             <ItemOverView name={data.fullName} description={data.description} language={data.language} />
-        </View>
-        <View style={styles.distributedRow}>
+          </View>
+          <View style={styles.distributedRow}>
             <ItemDataCount count={data.stargazersCount} unit='Stars' />
             <ItemDataCount count={data.forksCount} unit='Forks' />
             <ItemDataCount count={data.reviewCount} unit='Reviews' />
             <ItemDataCount count={data.ratingAverage} unit='Rating' />
-        </View>
+          </View>
         </>}
-    </View>
+        { id && <Button onPress={() => WebBrowser.openBrowserAsync(data.url)}>Open in Github</Button>}
+      </View>
     );
   };
 
+  const onEndReach = () => {
+    fetchMoreReviews();
+  };
+
   return (
-    <View>
-      <RepositoryInfo data={item} />
+    <View style={{ flex: 1 }}>
+      {id && repository && repository.reviews &&
+        <FlatList
+          data={repository.reviews.edges}
+          onEndReached={onEndReach}
+          onEndReachedThreshold={0.5}
+          renderItem={({ item }) => <ReviewItem review={item} />}
+          ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
+          keyExtractor={({ node }) => node.id}
+          ListHeaderComponent={() => <RepositoryInfo data={repository} />}
+        />}
     </View>
   );
 };

@@ -1,12 +1,11 @@
 
 import React from 'react';
-import { View } from 'react-native';
 import { Formik } from 'formik';
 import ReviewForm from './ReviewForm';
 import * as yup from 'yup';
 import { useHistory } from 'react-router-native';
 
-import { useMutation, useApolloClient } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import { CREATE_REVIEW } from '../../graphql/mutations';
 
 const initialValues = {

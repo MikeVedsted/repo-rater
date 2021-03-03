@@ -8,7 +8,7 @@ import SearchField from './SearchField';
 const RepositoryList = () => {
   const [ordering, setOrdering] = useState({ orderBy: "CREATED_AT", orderDirection: "DESC" });
   const [searchKeyword, setSearchKeyword] = useState('');
-  const { repositories } = useRepositories({ ordering, searchKeyword });
+  const { repositories, fetchMore } = useRepositories({ ordering, searchKeyword, first: 4 });
   const orderOptions = [
     { label: 'Latest repositories', value: 'latest' },
     { label: 'Highest rated repositories ', value: 'highest' },
@@ -40,7 +40,9 @@ const RepositoryList = () => {
         />
 
       </>
-    } />
+    }
+      onEnd={fetchMore}
+    />
   );
 };
 
