@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { View, FlatList } from 'react-native';
 import { useQuery } from '@apollo/react-hooks';
-import { View, Text, FlatList } from 'react-native';
 
-import Button from '../Button';
+import Loading from '../Loading';
 import ReviewItem from '../ReviewItem';
 import { CHECK_AUTH } from '../../graphql/queries';
 
@@ -18,7 +18,7 @@ const MyReviews = () => {
 
   if (loading) {
     return (
-      <View><Text>Loading...</Text></View>
+      <Loading />
     );
   }
 

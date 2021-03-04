@@ -34,11 +34,7 @@ const RepositoryListContainer = ({ repositories, header, onEnd }) => {
       keyExtractor={item => item.id}
       testID='RepositoryListContainer'
       ListHeaderComponent={header}
-
-
-
     />
-
   );
 };
 

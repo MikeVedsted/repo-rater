@@ -1,6 +1,6 @@
 import { gql } from 'apollo-boost';
 
-import { REPOSITORY_DETAILS, REVIEW_DETAILS } from './fragments';
+import { REPOSITORY_DETAILS, REVIEW_DETAILS, REVIEW_PAGE_INFO, REPOSITORIES_PAGE_INFO } from './fragments';
 
 export const GET_REPOSITORIES = gql`
   query GetRepositories($orderBy: AllRepositoriesOrderBy, $orderDirection: OrderDirection, $searchKeyword: String, $first: Int, $after: String) {
@@ -10,35 +10,23 @@ export const GET_REPOSITORIES = gql`
          ...RepositoryDetails
          reviews(first: 1) { 
            edges { 
-            __typename
             node {
               ...ReviewDetails
-              __typename
             }
              cursor
            }
-           pageInfo {
-            endCursor
-            startCursor
-            totalCount
-            hasNextPage
-            __typename
-          }
-
+          ...ReviewPageInfo
           }
         }
         cursor
       }
-      pageInfo {
-        endCursor
-        startCursor
-        totalCount
-        hasNextPage
-      }
+      ...RepositoriesPageInfo
     }
   }
   ${REPOSITORY_DETAILS}
   ${REVIEW_DETAILS}
+  ${REVIEW_PAGE_INFO}
+  ${REPOSITORIES_PAGE_INFO}
 `;
 
 export const CHECK_AUTH = gql`
@@ -54,49 +42,34 @@ export const CHECK_AUTH = gql`
               id
               fullName
             }
-            __typename
           }
           cursor
         }
-        pageInfo {
-          endCursor
-          startCursor
-          totalCount
-          hasNextPage
-        }
+        ...ReviewPageInfo
       }
     }
   }
   ${REVIEW_DETAILS}
+  ${REVIEW_PAGE_INFO}
 `;
 
 export const GET_REPOSITORY = gql`
 query Repository($id: ID!, $first: Int, $after: String) {
   repository(id: $id) {
-    url
     ...RepositoryDetails
+    url
     reviews(first: $first, after: $after) {
       edges {
-        __typename
         node {
           ...ReviewDetails
-          __typename
         }
         cursor
-        __typename
       }
-      pageInfo {
-        endCursor
-        startCursor
-        totalCount
-        hasNextPage
-        __typename
-      }
-      __typename
+      ...ReviewPageInfo
     }
-    __typename
   }
 }
 ${REPOSITORY_DETAILS}
 ${REVIEW_DETAILS}
+${REVIEW_PAGE_INFO}
 `;

@@ -4,11 +4,11 @@ import { Route, Switch, Redirect } from 'react-router-native';
 
 import AppBar from './AppBar';
 import SignIn from './SignIn';
-import SingleRepo from './SingleRepo';
 import SignUp from './SignUp';
-import Review from './Review';
-import RepositoryList from './RepositoryList';
+import AddReview from './AddReview';
 import MyReviews from './MyReviews';
+import SingleRepository from './SingleRepository';
+import Repositories from './Repositories';
 import theme from '../theme';
 
 const styles = StyleSheet.create({
@@ -27,10 +27,10 @@ const Main = () => {
       <Switch>
         <Route path="/sign-in" exact component={SignIn} />
         <Route path="/sign-up" exact component={SignUp} />
-        <Route path="/review" exact component={Review} />
+        <Route path="/review" exact component={AddReview} />
         <Route path="/my-reviews" exact component={MyReviews} />
-        <Route path="/repository/:id" exact component={SingleRepo} />
-        <Route path="/" exact component={RepositoryList} />
+        <Route path="/repository/:id" exact component={SingleRepository} />
+        <Route path="/" exact component={Repositories} />
         <Redirect to="/" />
       </Switch>
     </View>

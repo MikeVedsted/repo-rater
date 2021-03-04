@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
 import { useField } from 'formik';
+import { StyleSheet } from 'react-native';
 
 import Text from './Text';
 import TextInput from './TextInput';

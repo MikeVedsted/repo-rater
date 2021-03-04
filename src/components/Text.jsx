@@ -25,11 +25,15 @@ const styles = StyleSheet.create({
   fontWeightBold: {
     fontWeight: theme.fontWeights.bold,
   },
+  wrapText: {
+    flexWrap: "wrap"
+  }
 });
 
-const Text = ({ color, fontSize, fontWeight, style, ...props }) => {
+const Text = ({ color, fontSize, fontWeight, wrap, style, ...props }) => {
   const textStyle = [
     styles.text,
+    wrap && styles.wrapText,
     color === 'textSecondary' && styles.colorTextSecondary,
     color === 'primary' && styles.colorPrimary,
     color === 'white' && styles.colorWhite,

@@ -1,13 +1,12 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Constants from 'expo-constants';
-import { Link, useHistory } from 'react-router-native';
+import { Link } from 'react-router-native';
 import { useQuery } from '@apollo/react-hooks';
-import { useApolloClient } from '@apollo/client';
 import { View, StyleSheet, ScrollView } from 'react-native';
 
+import Logout from "./Logout";
 import AppBarTab from "./AppBarTab";
 import { CHECK_AUTH } from '../../graphql/queries';
-import AuthStorageContext from '../../contexts/AuthStorageContext';
 import theme from '../../theme';
 
 const styles = StyleSheet.create({
@@ -19,37 +18,34 @@ const styles = StyleSheet.create({
   },
 });
 
-const AppBar = () => {
-  const history = useHistory();
-  const authStorage = useContext(AuthStorageContext);
-  const apolloClient = useApolloClient();
-  const { data } = useQuery(CHECK_AUTH);
+const AuthorizedItems = () => {
+  return (
+    <>
+      <Link to="/review" component={AppBarTab}>Create a review</Link>
+      <Link to="/my-reviews" component={AppBarTab}>My reviews</Link>
+      <Logout />
+    </>
+  );
+};
 
-  const handleSignOut = async () => {
-    await authStorage.removeAccessToken();
-    apolloClient.resetStore();
-    history.push('/');
-  };
+const UnauthorizedItems = () => {
+  return (
+    <>
+      <Link to="/sign-in" component={AppBarTab}>Sign in</Link>
+      <Link to="/sign-up" component={AppBarTab}>Sign up</Link>
+    </>
+  );
+};
+
+const AppBar = () => {
+  const { data } = useQuery(CHECK_AUTH);
 
   return (
     <View style={styles.appBar}>
       <ScrollView horizontal>
         <Link to="/" component={AppBarTab}>Repositories</Link>
-
-        {data && !data.authorizedUser &&
-          <>
-            <Link to="/sign-in" component={AppBarTab}>Sign in</Link>
-            <Link to="/sign-up" component={AppBarTab}>Sign up</Link>
-          </>
-        }
-
-        {data && data.authorizedUser &&
-          <>
-            <Link to="/review" component={AppBarTab}>Create a review</Link>
-          <Link to="/my-reviews" component={AppBarTab}>My reviews</Link>
-            <AppBarTab onPress={handleSignOut}>Sign out</AppBarTab>
-          </>
-        }
+        {data && !data.authorizedUser && <UnauthorizedItems />}
+        {data && data.authorizedUser && <AuthorizedItems />}
       </ScrollView>
     </View>
   );

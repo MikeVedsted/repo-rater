@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import RNPickerSelect from 'react-native-picker-select';
 
-import useRepositories from '../../hooks/useRepositories';
-import RepositoryListContainer from './RepositoryListContainer';
 import SearchField from './SearchField';
+import RepositoryList from './RepositoryList';
+import useRepositories from '../../hooks/useRepositories';
 
-const RepositoryList = () => {
+const Repositories = () => {
   const [ordering, setOrdering] = useState({ orderBy: "CREATED_AT", orderDirection: "DESC" });
   const [searchKeyword, setSearchKeyword] = useState('');
   const { repositories, fetchMore } = useRepositories({ ordering, searchKeyword, first: 4 });
+
   const orderOptions = [
     { label: 'Latest repositories', value: 'latest' },
     { label: 'Highest rated repositories ', value: 'highest' },
@@ -30,20 +31,13 @@ const RepositoryList = () => {
   };
 
   return (
-    <RepositoryListContainer repositories={repositories} header={
+    <RepositoryList repositories={repositories} onEnd={fetchMore} header={
       <>
         <SearchField handleSearch={handleSearch} debounceBy={500} />
-
-        <RNPickerSelect
-          onValueChange={(value) => handleValueChange(value)}
-          items={orderOptions}
-        />
-
+        <RNPickerSelect onValueChange={(value) => handleValueChange(value)} items={orderOptions} />
       </>
-    }
-      onEnd={fetchMore}
-    />
+    } />
   );
 };
 
-export default RepositoryList;
+export default Repositories;

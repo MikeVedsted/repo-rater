@@ -1,47 +1,41 @@
 import React from 'react';
+import { useMutation } from '@apollo/client';
 import { useHistory } from 'react-router-native';
 import { Alert, View, StyleSheet } from 'react-native';
-import { useMutation, useApolloClient } from '@apollo/client';
 
-import * as WebBrowser from 'expo-web-browser';
-
-import Text from './Text';
-import Button from './Button';
-import theme from '../theme';
-import { CHECK_AUTH } from '../graphql/queries';
-import { DELETE_REVIEW } from '../graphql/mutations';
+import Text from '../Text';
+import Button from '../Button';
+import { CHECK_AUTH } from '../../graphql/queries';
+import { DELETE_REVIEW } from '../../graphql/mutations';
+import theme from '../../theme';
 
 const styles = StyleSheet.create({
   container: { backgroundColor: theme.colors.white, padding: 20 },
   row: { flexDirection: "row", },
   circle: { borderColor: theme.colors.primary, height: 50, width: 50, borderWidth: 2, borderRadius: 25, alignItems: "center", justifyContent: "center" },
-  text: { marginLeft: 20, flex: 1 }
+  text: { marginLeft: 20, flex: 1 },
+  ownerButton: { flex: 1, margin: 10 }
 });
 
 const ReviewItem = ({ review, owner }) => {
   const history = useHistory();
-  const { createdAt, rating, text, user } = review.node;
-  const { fullName = '', id = '' } = review.node.repository;
-  const reviewId = review.node.id;
+  const { createdAt, rating, text, user, id } = review.node;
   const date = new Date(createdAt);
   const dateString = `${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`;
   const [mutate] = useMutation(DELETE_REVIEW, {
-    variables: { id: reviewId },
+    variables: { id },
     refetchQueries: [
       { query: CHECK_AUTH, variables: { includeReviews: true } }
     ],
     awaitRefetchQueries: true
-
   });
 
-  const createTwoButtonAlert = () =>
+  const deletionAlert = () =>
     Alert.alert(
       "Delete review",
       "Are you sure you want to delete this review?",
       [
-        {
-          text: "Cancel",
-        },
+        { text: "Cancel" },
         {
           text: "DELETE",
           onPress: () => handleDelete()
@@ -51,10 +45,8 @@ const ReviewItem = ({ review, owner }) => {
     );
 
   const handleDelete = async () => {
-    console.log('deleting');
     await mutate();
   };
-
 
   return (
     <View style={styles.container}>
@@ -63,16 +55,16 @@ const ReviewItem = ({ review, owner }) => {
           <Text color='primary' fontWeight='bold'>{rating}</Text>
         </View>
         <View style={styles.text}>
-          <Text fontSize='subheading' fontWeight='bold' color='primary'>{owner ? fullName : user.username} </Text>
+          <Text fontSize='subheading' fontWeight='bold' color='primary'>{owner ? review.node.repository.fullName : user.username} </Text>
           <Text color='textSecondary'>{dateString}</Text>
-          <Text color='primary' style={{ flexWrap: "wrap" }}>{text}</Text>
+          <Text color='primary' wrap >{text}</Text>
         </View>
 
       </View>
       {owner &&
         <View style={styles.row}>
-          <Button onPress={() => history.push(`/repository/${id}`)} style={{ flex: 1, margin: 10 }} >View repository</Button>
-        <Button onPress={createTwoButtonAlert} style={{ flex: 1, margin: 10 }} color='warning' >Delete review</Button>
+          <Button onPress={() => history.push(`/repository/${review.node.repository.id}`)} style={styles.ownerButton} >View repository</Button>
+          <Button onPress={deletionAlert} style={styles.ownerButton} color='warning' >Delete review</Button>
         </View>
       }
     </View>

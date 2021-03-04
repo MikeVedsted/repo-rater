@@ -17,7 +17,6 @@ const useSingleRepository = ({ id, first }) => {
       return;
     }
 
-
     fetchMore({
       query: GET_REPOSITORY,
       variables: {
@@ -42,7 +41,6 @@ const useSingleRepository = ({ id, first }) => {
       },
     });
   };
-
 
   useEffect(() => {
     if (data && !loading && !error) {

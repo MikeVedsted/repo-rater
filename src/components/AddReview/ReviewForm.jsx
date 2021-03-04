@@ -12,8 +12,8 @@ const styles = StyleSheet.create({
 const ReviewForm = ({ onSubmit }) => {
   return (
     <View style={styles.container}>
-      <FormikTextInput name="repositoryName" placeholder="Repository owner name" />
-      <FormikTextInput name="ownerName" placeholder="Repository name" />
+      <FormikTextInput name="ownerName" placeholder="Repository owner name" />
+      <FormikTextInput name="repositoryName" placeholder="Repository name" />
       <FormikTextInput name="rating" placeholder="Rating (0-100)" keyboardType='numeric' />
       <FormikTextInput name="text" placeholder="Review (Optional)" multiline numberOfLines={8} />
       <Button onPress={onSubmit}>Create a review</Button>

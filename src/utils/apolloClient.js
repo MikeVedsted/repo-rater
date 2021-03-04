@@ -17,7 +17,7 @@ const createApolloClient = (authStorage) => {
       catch (e) {
         console.log(e);
       }
-    }, uri: uri
+      }, uri: uri
   });
 };
 

@@ -39,7 +39,6 @@ const useRepositories = ({ ordering, searchKeyword, first }) => {
     });
   };
 
-  
   useEffect(() => {
     refetch({ orderBy, orderDirection, searchKeyword });
   }, [orderBy, orderDirection, searchKeyword]);
