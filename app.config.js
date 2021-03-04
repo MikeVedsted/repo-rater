@@ -1,26 +1,26 @@
 import 'dotenv/config';
 
 export default {
-  "name": "rate-repository-app",
-  "slug": "rate-repository-app",
-  "version": "1.0.0",
-  "orientation": "portrait",
-  "icon": "./assets/icon.png",
-  "splash": {
+  name: "rate-repository-app",
+  slug: "rate-repository-app",
+  version: "1.0.0",
+  orientation: "portrait",
+  icon: "./assets/icon.png",
+  splash: {
     "image": "./assets/splash.png",
     "resizeMode": "contain",
     "backgroundColor": "#ffffff"
   },
-  "updates": {
+  updates: {
     "fallbackToCacheTimeout": 0
   },
-  "assetBundlePatterns": [
+  assetBundlePatterns: [
     "**/*"
   ],
-  "ios": {
+  ios: {
     "supportsTablet": true
   },
-  "web": {
+  web: {
     "favicon": "./assets/favicon.png"
   },
   extra: {

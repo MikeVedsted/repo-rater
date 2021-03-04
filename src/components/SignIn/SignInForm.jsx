@@ -13,8 +13,8 @@ const styles = StyleSheet.create({
 const SignInForm = ({ onSubmit }) => {
   return (
     <View style={styles.container}>
-      <FormikTextInput testID='usernameField' name="username" placeholder="Username" />
-      <FormikTextInput testID='passwordField' name="password" placeholder="Password" secureTextEntry />
+      <FormikTextInput name="username" placeholder="Username" />
+      <FormikTextInput name="password" placeholder="Password" secureTextEntry />
       <Button testID='submitButton' onPress={onSubmit}>
         Sign in
       </Button>

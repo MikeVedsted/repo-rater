@@ -1,10 +1,10 @@
 import React from 'react';
 import { render } from '@testing-library/react-native';
 
-import RepositoryListContainer from './RepositoryListContainer';
+import RepositoryList from './RepositoryList';
 
 describe('RepositoryList', () => {
-  describe('RepositoryListContainer', () => {
+  describe('RepositoryList', () => {
     it('renders repository information correctly', () => {
       const repositories = {
         pageInfo: {
@@ -48,7 +48,7 @@ describe('RepositoryList', () => {
           },
         ],
       };
-      const { getAllByTestId } = render(<RepositoryListContainer repositories={repositories} />);
+      const { getAllByTestId } = render(<RepositoryList repositories={repositories} />);
 
       expect(getAllByTestId('repositoryName')).toHaveLength(2);
       expect(getAllByTestId('repositoryName')[0]).toHaveTextContent(repositories.edges[0].node.fullName);
